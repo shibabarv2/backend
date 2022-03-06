@@ -1,4 +1,4 @@
-package routes
+package auth
 
 import (
 	"context"
@@ -25,7 +25,7 @@ func complete(ctx *fiber.Ctx) error {
 	}).Decode(&e); err != nil {
 		return ctx.Status(403).JSON(fiber.Map{
 			"status":  "ERROR",
-			"errors":  errors{"INVALID_INVITE"},
+			"errors":  structs.Errors{"INVALID_INVITE"},
 			"message": "The invite you provided was invalid. Please try again later.",
 		})
 	}
@@ -33,7 +33,7 @@ func complete(ctx *fiber.Ctx) error {
 	if _, err := col.UpdateOne(context.TODO(), bson.M{"invite": Invite}, bson.M{"$set": bson.M{"active": false}}); err != nil {
 		return ctx.Status(500).JSON(fiber.Map{
 			"status":  "ERROR",
-			"errors":  errors{"UNEXPECTED_ERROR"},
+			"errors":  structs.Errors{"UNEXPECTED_ERROR"},
 			"message": "An unexpected error has occurred",
 			"error":   err.Error(),
 		})
@@ -44,14 +44,14 @@ func complete(ctx *fiber.Ctx) error {
 	if status != 200 {
 		return ctx.Status(403).JSON(fiber.Map{
 			"status":  "ERROR",
-			"errors":  errors{"UNEXPECTED_ERROR"},
+			"errors":  structs.Errors{"UNEXPECTED_ERROR"},
 			"message": "An unexpected error has occurred",
 		})
 	}
 
 	return ctx.JSON(fiber.Map{
 		"status":  "OK",
-		"errors":  errors{},
+		"errors":  structs.Errors{},
 		"message": "Registered account successfully",
 		"user": fiber.Map{
 			"email":    Email,
@@ -70,7 +70,7 @@ func Register(ctx *fiber.Ctx) error {
 	if strings.Contains(Email, "@") == false {
 		return ctx.Status(403).JSON(fiber.Map{
 			"status":  "ERROR",
-			"errors":  errors{"VALIDATION_ERROR"},
+			"errors":  structs.Errors{"VALIDATION_ERROR"},
 			"message": "You are missing an @ in your email.",
 		})
 	}
@@ -82,7 +82,7 @@ func Register(ctx *fiber.Ctx) error {
 
 		return ctx.Status(403).JSON(fiber.Map{
 			"status":  "ERROR",
-			"errors":  errors{"VALIDATION_ERROR"},
+			"errors":  structs.Errors{"VALIDATION_ERROR"},
 			"message": "You are missing a valid domain in your email.",
 		})
 	}
