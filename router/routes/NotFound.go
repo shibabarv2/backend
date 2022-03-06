@@ -6,7 +6,7 @@ import (
 )
 
 func NotFound(ctx *fiber.Ctx) error {
-	return ctx.JSON(fiber.Map{
+	return ctx.Status(404).JSON(fiber.Map{
 		"status":  "ERROR",
 		"errors":  structs.Errors{"ROUTE_NOT_FOUND"},
 		"message": "This route could not be found. Please provide a valid route and try again.",
