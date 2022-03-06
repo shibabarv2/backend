@@ -28,3 +28,8 @@ type AliasesResponse []struct {
 }
 
 type DomainsSlice []string
+
+type Invite struct {
+	Invite string `json:"invite"`
+	Active bool   `json:"active"`
+}
