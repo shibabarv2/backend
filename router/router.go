@@ -18,6 +18,7 @@ func Router(server *fiber.App) {
 	admin := group.Group("/admin")
 	admin.Get("/create/invite", routes2.AddInvite)
 	admin.Get("/remove/invite", routes2.RemoveInvite)
+	admin.Get("/lookup/invite", routes2.GetInvite)
 
 	// * Keep this at the end
 	server.Get("*", routes.NotFound)

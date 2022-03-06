@@ -32,4 +32,8 @@ type DomainsSlice []string
 type Invite struct {
 	Invite string `json:"invite"`
 	Active bool   `json:"active"`
+	UsedBy struct {
+		Email string `json:"email"`
+		Date  string `json:"date"`
+	} `json:"usedBy"`
 }
