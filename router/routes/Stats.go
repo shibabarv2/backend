@@ -19,7 +19,7 @@ func Stats(ctx *fiber.Ctx) error {
 	if err != nil {
 		return ctx.JSON(fiber.Map{
 			"status":  "ERROR",
-			"errors":  errors{"UNKNOWN_ERROR"},
+			"errors":  structs.Errors{"UNKNOWN_ERROR"},
 			"message": "An unknown error has occurred while attempting to fetch stats. Please contact the developers of this application and wait until they fix it.",
 			"error":   err.Error(),
 		})
@@ -31,7 +31,7 @@ func Stats(ctx *fiber.Ctx) error {
 	if err != nil {
 		return ctx.JSON(fiber.Map{
 			"status":  "ERROR",
-			"errors":  errors{"UNKNOWN_ERROR"},
+			"errors":  structs.Errors{"UNKNOWN_ERROR"},
 			"message": "An unknown error has occurred while attempting to fetch stats. Please contact the developers of this application and wait until they fix it.",
 			"error":   err.Error(),
 		})
@@ -44,7 +44,7 @@ func Stats(ctx *fiber.Ctx) error {
 	if err != nil {
 		return ctx.JSON(fiber.Map{
 			"status":  "ERROR",
-			"errors":  errors{"UNKNOWN_ERROR"},
+			"errors":  structs.Errors{"UNKNOWN_ERROR"},
 			"message": "An unknown error has occurred while attempting to fetch stats. Please contact the developers of this application and wait until they fix it.",
 			"error":   err.Error(),
 		})
@@ -75,7 +75,7 @@ func Stats(ctx *fiber.Ctx) error {
 	if err != nil {
 		return ctx.JSON(fiber.Map{
 			"status":  "ERROR",
-			"errors":  errors{"UNKNOWN_ERROR"},
+			"errors":  structs.Errors{"UNKNOWN_ERROR"},
 			"message": "An unknown error has occurred while attempting to fetch stats. Please contact the developers of this application and wait until they fix it.",
 			"error":   err.Error(),
 		})
@@ -88,7 +88,7 @@ func Stats(ctx *fiber.Ctx) error {
 	if err != nil {
 		return ctx.JSON(fiber.Map{
 			"status":  "ERROR",
-			"errors":  errors{"UNKNOWN_ERROR"},
+			"errors":  structs.Errors{"UNKNOWN_ERROR"},
 			"message": "An unknown error has occurred while attempting to fetch stats. Please contact the developers of this application and wait until they fix it.",
 			"error":   err.Error(),
 		})
@@ -107,7 +107,7 @@ func Stats(ctx *fiber.Ctx) error {
 
 	return ctx.JSON(fiber.Map{
 		"status":  "OK",
-		"errors":  errors{},
+		"errors":  structs.Errors{},
 		"message": "Here is a list of statistics.",
 		"stats": fiber.Map{
 			"users":       users,

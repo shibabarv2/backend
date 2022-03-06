@@ -1,13 +1,14 @@
 package routes
 
-import "github.com/gofiber/fiber/v2"
-
-type errors []string
+import (
+	"github.com/gofiber/fiber/v2"
+	"shiba-backend/structs"
+)
 
 func Index(ctx *fiber.Ctx) error {
 	return ctx.JSON(fiber.Map{
 		"status":  "OK",
-		"errors":  errors{},
+		"errors":  structs.Errors{},
 		"message": "Hi",
 	})
 }
