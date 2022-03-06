@@ -10,6 +10,9 @@ func Router(server *fiber.App) {
 	group.Get("/", routes.Index)
 	group.Get("/stats", routes.Stats)
 
+	auth := group.Group("/auth")
+	auth.Get("/register", routes.Register)
+
 	// * Keep this at the end
 	server.Get("*", routes.NotFound)
 	server.Post("*", routes.NotFound)
