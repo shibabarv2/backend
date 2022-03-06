@@ -114,10 +114,14 @@ func Stats(ctx *fiber.Ctx) error {
 	}
 
 	return ctx.JSON(fiber.Map{
-		"status":      "OK",
-		"users":       users,
-		"blacklisted": blacklisted,
-		"domains":     domains,
-		"aliases":     aliases,
+		"status":  "OK",
+		"errors":  errors{},
+		"message": "Here is a list of statistics.",
+		"stats": fiber.Map{
+			"users":       users,
+			"domains":     domains,
+			"blacklisted": blacklisted,
+			"aliases":     aliases,
+		},
 	})
 }
