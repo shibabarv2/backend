@@ -23,7 +23,7 @@ func complete(ctx *fiber.Ctx) error {
 		"invite": Invite,
 		"active": true,
 	}).Decode(&e); err != nil {
-		return ctx.JSON(fiber.Map{
+		return ctx.Status(403).JSON(fiber.Map{
 			"status":  "ERROR",
 			"errors":  errors{"INVALID_INVITE"},
 			"message": "The invite you provided was invalid. Please try again later.",
@@ -31,7 +31,7 @@ func complete(ctx *fiber.Ctx) error {
 	}
 
 	if _, err := col.UpdateOne(context.TODO(), bson.M{"invite": Invite}, bson.M{"$set": bson.M{"active": false}}); err != nil {
-		return ctx.JSON(fiber.Map{
+		return ctx.Status(500).JSON(fiber.Map{
 			"status":  "ERROR",
 			"errors":  errors{"UNEXPECTED_ERROR"},
 			"message": "An unexpected error has occurred",
@@ -42,7 +42,7 @@ func complete(ctx *fiber.Ctx) error {
 	status := util.BasicSender(os.Getenv("API_URL")+"/admin/mail/users/add", Email, Password, os.Getenv("ADMIN_KEY"))
 
 	if status != 200 {
-		return ctx.JSON(fiber.Map{
+		return ctx.Status(403).JSON(fiber.Map{
 			"status":  "ERROR",
 			"errors":  errors{"UNEXPECTED_ERROR"},
 			"message": "An unexpected error has occurred",
@@ -68,7 +68,7 @@ func Register(ctx *fiber.Ctx) error {
 	//Password := util.String(10)
 
 	if strings.Contains(Email, "@") == false {
-		return ctx.JSON(fiber.Map{
+		return ctx.Status(403).JSON(fiber.Map{
 			"status":  "ERROR",
 			"errors":  errors{"VALIDATION_ERROR"},
 			"message": "You are missing an @ in your email.",
@@ -80,7 +80,7 @@ func Register(ctx *fiber.Ctx) error {
 			return complete(ctx)
 		}
 
-		return ctx.JSON(fiber.Map{
+		return ctx.Status(403).JSON(fiber.Map{
 			"status":  "ERROR",
 			"errors":  errors{"VALIDATION_ERROR"},
 			"message": "You are missing a valid domain in your email.",
