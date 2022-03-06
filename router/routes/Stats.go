@@ -78,10 +78,46 @@ func Stats(ctx *fiber.Ctx) error {
 		}
 	}
 
+	aliasesT, err := http.NewRequest("GET", os.Getenv("API_URL")+"/admin/mail/aliases?format=json", nil)
+
+	if err != nil {
+		return ctx.JSON(fiber.Map{
+			"status":  "ERROR",
+			"errors":  errors{"UNKNOWN_ERROR"},
+			"message": "An unknown error has occurred while attempting to fetch stats. Please contact the developers of this application and wait until they fix it.",
+			"error":   err.Error(),
+		})
+	}
+
+	aliasesT.Header.Add("Authorization", "Basic "+key)
+
+	reqz, err := client.Do(aliasesT)
+
+	if err != nil {
+		return ctx.JSON(fiber.Map{
+			"status":  "ERROR",
+			"errors":  errors{"UNKNOWN_ERROR"},
+			"message": "An unknown error has occurred while attempting to fetch stats. Please contact the developers of this application and wait until they fix it.",
+			"error":   err.Error(),
+		})
+	}
+
+	defer reqz.Body.Close()
+
+	var x structs.AliasesResponse
+	err = json.NewDecoder(reqz.Body).Decode(&x)
+
+	var aliases int
+
+	for _, _ = range x {
+		aliases = aliases + 1
+	}
+
 	return ctx.JSON(fiber.Map{
 		"status":      "OK",
 		"users":       users,
 		"blacklisted": blacklisted,
 		"domains":     domains,
+		"aliases":     aliases,
 	})
 }
