@@ -6,16 +6,8 @@ import (
 	"net/http"
 	"os"
 	"shiba-backend/structs"
+	"shiba-backend/util"
 )
-
-func Contains(a []string, x string) bool {
-	for _, n := range a {
-		if x == n {
-			return true
-		}
-	}
-	return false
-}
 
 func Stats(ctx *fiber.Ctx) error {
 	key := os.Getenv("ADMIN_KEY")
@@ -73,7 +65,7 @@ func Stats(ctx *fiber.Ctx) error {
 			}
 		}
 
-		if Contains(domains, v.Domain) == false {
+		if util.Contains(domains, v.Domain) == false {
 			domains = append(domains, v.Domain)
 		}
 	}

@@ -26,3 +26,5 @@ type AliasesResponse []struct {
 		Required         bool     `json:"required"`
 	} `json:"aliases"`
 }
+
+type DomainsSlice []string
