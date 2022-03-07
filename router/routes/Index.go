@@ -6,7 +6,7 @@ import (
 )
 
 func Index(ctx *fiber.Ctx) error {
-	return ctx.JSON(fiber.Map{
+	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
 		"status":  "OK",
 		"errors":  structs.Errors{},
 		"message": "Hi",

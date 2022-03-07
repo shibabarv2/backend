@@ -13,7 +13,7 @@ func Lookup(ctx *fiber.Ctx) error {
 	key := os.Getenv("ADMIN_KEY")
 
 	if key != ctx.Query("key") {
-		return ctx.Status(500).JSON(fiber.Map{
+		return ctx.Status(fiber.StatusForbidden).JSON(fiber.Map{
 			"status":  "ERROR",
 			"errors":  structs.Errors{"VALIDATION_ERROR"},
 			"message": "There was an error validating your key.",
@@ -25,7 +25,7 @@ func Lookup(ctx *fiber.Ctx) error {
 	req, err := http.NewRequest("GET", os.Getenv("API_URL")+"/admin/mail/users?format=json", nil)
 
 	if err != nil {
-		return ctx.Status(500).JSON(fiber.Map{
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"status":  "ERROR",
 			"errors":  structs.Errors{"UNKNOWN_ERROR"},
 			"message": "An unknown error has occurred while attempting to fetch stats. Please contact the developers of this application and wait until they fix it.",
@@ -37,7 +37,7 @@ func Lookup(ctx *fiber.Ctx) error {
 
 	resp, err := client.Do(req)
 	if err != nil {
-		return ctx.Status(500).JSON(fiber.Map{
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"status":  "ERROR",
 			"errors":  structs.Errors{"UNKNOWN_ERROR"},
 			"message": "An unknown error has occurred while attempting to fetch stats. Please contact the developers of this application and wait until they fix it.",
@@ -50,7 +50,7 @@ func Lookup(ctx *fiber.Ctx) error {
 	var r structs.StatsResponse
 	err = json.NewDecoder(resp.Body).Decode(&r)
 	if err != nil {
-		return ctx.Status(500).JSON(fiber.Map{
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"status":  "ERROR",
 			"errors":  structs.Errors{"UNKNOWN_ERROR"},
 			"message": "An unknown error has occurred while attempting to fetch stats. Please contact the developers of this application and wait until they fix it.",

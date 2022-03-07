@@ -17,7 +17,7 @@ func Stats(ctx *fiber.Ctx) error {
 	req, err := http.NewRequest("GET", os.Getenv("API_URL")+"/admin/mail/users?format=json", nil)
 
 	if err != nil {
-		return ctx.JSON(fiber.Map{
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"status":  "ERROR",
 			"errors":  structs.Errors{"UNKNOWN_ERROR"},
 			"message": "An unknown error has occurred while attempting to fetch stats. Please contact the developers of this application and wait until they fix it.",
@@ -29,7 +29,7 @@ func Stats(ctx *fiber.Ctx) error {
 
 	resp, err := client.Do(req)
 	if err != nil {
-		return ctx.JSON(fiber.Map{
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"status":  "ERROR",
 			"errors":  structs.Errors{"UNKNOWN_ERROR"},
 			"message": "An unknown error has occurred while attempting to fetch stats. Please contact the developers of this application and wait until they fix it.",
@@ -42,7 +42,7 @@ func Stats(ctx *fiber.Ctx) error {
 	var r structs.StatsResponse
 	err = json.NewDecoder(resp.Body).Decode(&r)
 	if err != nil {
-		return ctx.JSON(fiber.Map{
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"status":  "ERROR",
 			"errors":  structs.Errors{"UNKNOWN_ERROR"},
 			"message": "An unknown error has occurred while attempting to fetch stats. Please contact the developers of this application and wait until they fix it.",
@@ -73,7 +73,7 @@ func Stats(ctx *fiber.Ctx) error {
 	aliasesT, err := http.NewRequest("GET", os.Getenv("API_URL")+"/admin/mail/aliases?format=json", nil)
 
 	if err != nil {
-		return ctx.JSON(fiber.Map{
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"status":  "ERROR",
 			"errors":  structs.Errors{"UNKNOWN_ERROR"},
 			"message": "An unknown error has occurred while attempting to fetch stats. Please contact the developers of this application and wait until they fix it.",
@@ -86,7 +86,7 @@ func Stats(ctx *fiber.Ctx) error {
 	reqz, err := client.Do(aliasesT)
 
 	if err != nil {
-		return ctx.JSON(fiber.Map{
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"status":  "ERROR",
 			"errors":  structs.Errors{"UNKNOWN_ERROR"},
 			"message": "An unknown error has occurred while attempting to fetch stats. Please contact the developers of this application and wait until they fix it.",

@@ -37,3 +37,7 @@ type Invite struct {
 		Date  string `json:"date"`
 	} `json:"usedBy"`
 }
+
+// This is a constant that is used by main.go to show if the application is in testing process.
+// If it is, all admin routes will not require a key
+var IsTesting bool

@@ -24,7 +24,7 @@ func complete(ctx *fiber.Ctx) error {
 		"invite": Invite,
 		"active": true,
 	}).Decode(&e); err != nil {
-		return ctx.Status(403).JSON(fiber.Map{
+		return ctx.Status(fiber.StatusForbidden).JSON(fiber.Map{
 			"status":  "ERROR",
 			"errors":  structs.Errors{"INVALID_INVITE"},
 			"message": "The invite you provided was invalid. Please try again later.",
@@ -32,7 +32,7 @@ func complete(ctx *fiber.Ctx) error {
 	}
 
 	if _, err := col.UpdateOne(context.TODO(), bson.M{"invite": Invite}, bson.M{"$set": bson.M{"active": false, "usedBy": bson.M{"email": Email, "date": time.Now().String()}}}); err != nil {
-		return ctx.Status(500).JSON(fiber.Map{
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"status":  "ERROR",
 			"errors":  structs.Errors{"UNEXPECTED_ERROR"},
 			"message": "An unexpected error has occurred",
@@ -43,7 +43,7 @@ func complete(ctx *fiber.Ctx) error {
 	status := util.BasicSender(os.Getenv("API_URL")+"/admin/mail/users/add", Email, Password, os.Getenv("ADMIN_KEY"))
 
 	if status != 200 {
-		return ctx.Status(403).JSON(fiber.Map{
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"status":  "ERROR",
 			"errors":  structs.Errors{"UNEXPECTED_ERROR"},
 			"message": "An unexpected error has occurred",
@@ -69,7 +69,7 @@ func Register(ctx *fiber.Ctx) error {
 	//Password := util.String(10)
 
 	if strings.Contains(Email, "@") == false {
-		return ctx.Status(403).JSON(fiber.Map{
+		return ctx.Status(fiber.StatusForbidden).JSON(fiber.Map{
 			"status":  "ERROR",
 			"errors":  structs.Errors{"VALIDATION_ERROR"},
 			"message": "You are missing an @ in your email.",
@@ -80,13 +80,11 @@ func Register(ctx *fiber.Ctx) error {
 		if strings.Contains(Email, v) == true {
 			return complete(ctx)
 		}
-
-		return ctx.Status(403).JSON(fiber.Map{
-			"status":  "ERROR",
-			"errors":  structs.Errors{"VALIDATION_ERROR"},
-			"message": "You are missing a valid domain in your email.",
-		})
 	}
 
-	return nil
+	return ctx.Status(fiber.StatusForbidden).JSON(fiber.Map{
+		"status":  "ERROR",
+		"errors":  structs.Errors{"VALIDATION_ERROR"},
+		"message": "You are missing a valid domain in your email.",
+	})
 }

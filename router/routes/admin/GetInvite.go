@@ -11,7 +11,7 @@ import (
 
 func GetInvite(ctx *fiber.Ctx) error {
 	if os.Getenv("ADMIN_KEY") != ctx.Query("key") {
-		return ctx.Status(403).JSON(fiber.Map{
+		return ctx.Status(fiber.StatusForbidden).JSON(fiber.Map{
 			"status":  "ERROR",
 			"errors":  structs.Errors{"VALIDATION_ERROR"},
 			"message": "You are missing a API key.",
@@ -19,7 +19,7 @@ func GetInvite(ctx *fiber.Ctx) error {
 	}
 
 	if strings.HasPrefix(ctx.Query("invite"), "SHIB-") == false {
-		return ctx.Status(403).JSON(fiber.Map{
+		return ctx.Status(fiber.StatusForbidden).JSON(fiber.Map{
 			"status":  "ERROR",
 			"errors":  structs.Errors{"VALIDATION_ERROR"},
 			"message": "A valid invite starts with SHIB. Please lookup a valid invite and then try again",
@@ -31,7 +31,7 @@ func GetInvite(ctx *fiber.Ctx) error {
 	var a structs.Invite
 
 	if err := col.FindOne(context.TODO(), bson.M{"invite": ctx.Query("invite")}).Decode(&a); err != nil {
-		return ctx.Status(500).JSON(fiber.Map{
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"status":  "ERROR",
 			"errors":  structs.Errors{"UNEXPECTED_ERROR"},
 			"message": "An error occurred looking up your invite.",
@@ -39,7 +39,7 @@ func GetInvite(ctx *fiber.Ctx) error {
 		})
 	}
 
-	return ctx.Status(200).JSON(fiber.Map{
+	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
 		"status":  "OK",
 		"errors":  structs.Errors{},
 		"message": "Here is the invite information.",
