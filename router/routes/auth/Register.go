@@ -24,7 +24,7 @@ func complete(ctx *fiber.Ctx) error {
 		"invite": Invite,
 		"active": true,
 	}).Decode(&e); err != nil {
-		return ctx.Status(fiber.StatusForbidden).JSON(fiber.Map{
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"status":  "ERROR",
 			"errors":  structs.Errors{"INVALID_INVITE"},
 			"message": "The invite you provided was invalid. Please try again later.",
@@ -69,7 +69,7 @@ func Register(ctx *fiber.Ctx) error {
 	//Password := util.String(10)
 
 	if strings.Contains(Email, "@") == false {
-		return ctx.Status(fiber.StatusForbidden).JSON(fiber.Map{
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"status":  "ERROR",
 			"errors":  structs.Errors{"VALIDATION_ERROR"},
 			"message": "You are missing an @ in your email.",
@@ -82,7 +82,7 @@ func Register(ctx *fiber.Ctx) error {
 		}
 	}
 
-	return ctx.Status(fiber.StatusForbidden).JSON(fiber.Map{
+	return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 		"status":  "ERROR",
 		"errors":  structs.Errors{"VALIDATION_ERROR"},
 		"message": "You are missing a valid domain in your email.",

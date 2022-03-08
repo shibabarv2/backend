@@ -67,7 +67,7 @@ func Lookup(ctx *fiber.Ctx) error {
 			}
 		}
 
-		return ctx.JSON(fiber.Map{
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"status":  "ERROR",
 			"errors":  structs.Errors{"USER_NOT_FOUND"},
 			"message": "The user you queried could not be found.",

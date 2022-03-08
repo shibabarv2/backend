@@ -11,7 +11,7 @@ import (
 
 func GetInvite(ctx *fiber.Ctx) error {
 	if os.Getenv("ADMIN_KEY") != ctx.Query("key") {
-		return ctx.Status(fiber.StatusForbidden).JSON(fiber.Map{
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"status":  "ERROR",
 			"errors":  structs.Errors{"VALIDATION_ERROR"},
 			"message": "You are missing a API key.",
@@ -19,7 +19,7 @@ func GetInvite(ctx *fiber.Ctx) error {
 	}
 
 	if strings.HasPrefix(ctx.Query("invite"), "SHIB-") == false {
-		return ctx.Status(fiber.StatusForbidden).JSON(fiber.Map{
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"status":  "ERROR",
 			"errors":  structs.Errors{"VALIDATION_ERROR"},
 			"message": "A valid invite starts with SHIB. Please lookup a valid invite and then try again",
