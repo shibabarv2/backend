@@ -52,7 +52,7 @@ func Lookup(ctx *fiber.Ctx) error {
 
 	for _, v := range r {
 		for _, n := range v.Users {
-			if n.Email == ctx.Query("username") {
+			if n.Email == ctx.Params("username") {
 				return ctx.JSON(fiber.Map{
 					"status":  "OK",
 					"errors":  structs.Errors{},
