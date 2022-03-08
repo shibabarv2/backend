@@ -12,14 +12,6 @@ func Lookup(ctx *fiber.Ctx) error {
 
 	key := os.Getenv("ADMIN_KEY")
 
-	if key != ctx.Query("key") {
-		return ctx.Status(fiber.StatusForbidden).JSON(fiber.Map{
-			"status":  "ERROR",
-			"errors":  structs.Errors{"VALIDATION_ERROR"},
-			"message": "There was an error validating your key.",
-		})
-	}
-
 	client := &http.Client{}
 
 	req, err := http.NewRequest("GET", os.Getenv("API_URL")+"/admin/mail/users?format=json", nil)

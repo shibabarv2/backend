@@ -35,7 +35,7 @@ func main() {
 		Max:        5,
 		Expiration: 40 * time.Second,
 		LimitReached: func(c *fiber.Ctx) error {
-			return c.JSON(fiber.Map{
+			return c.Status(fiber.StatusTooManyRequests).JSON(fiber.Map{
 				"status":      "ERROR",
 				"errors":      structs.Errors{"SENDING_TOO_MANY_REQUESTS"},
 				"message":     "Slow down! You're sending too many requests in such a short period of time. Please try again later.",
