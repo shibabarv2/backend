@@ -31,7 +31,7 @@ func complete(ctx *fiber.Ctx) error {
 		})
 	}
 
-	if _, err := col.UpdateOne(context.TODO(), bson.M{"invite": Invite}, bson.M{"$set": bson.M{"active": false, "usedBy": bson.M{"email": Email, "date": time.Now().String()}}}); err != nil {
+	if _, err := col.UpdateOne(context.TODO(), bson.M{"invite": Invite}, bson.M{"$set": bson.M{"active": false, "usedBy": bson.M{"email": Email, "date": time.Now().Unix()}}}); err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"status":  "ERROR",
 			"errors":  structs.Errors{"UNEXPECTED_ERROR"},

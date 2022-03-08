@@ -34,7 +34,7 @@ type Invite struct {
 	Active bool   `json:"active"`
 	UsedBy struct {
 		Email string `json:"email"`
-		Date  string `json:"date"`
+		Date  int64  `json:"date"`
 	} `json:"usedBy"`
 }
 

@@ -7,6 +7,7 @@ import (
 	"os"
 	"shiba-backend/structs"
 	"strings"
+	"time"
 )
 
 func GetInvite(ctx *fiber.Ctx) error {
@@ -46,7 +47,11 @@ func GetInvite(ctx *fiber.Ctx) error {
 		"invite": fiber.Map{
 			"invite": ctx.Query("invite"),
 			"active": true,
-			"usedBy": a.UsedBy,
+			"usedBy": fiber.Map{
+				"email": a.UsedBy.Email,
+				"date":  time.Unix(a.UsedBy.Date, 0),
+				"unix":  a.UsedBy.Date,
+			},
 		},
 	})
 }
