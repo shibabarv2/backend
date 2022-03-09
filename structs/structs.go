@@ -55,5 +55,6 @@ type User struct {
 	Invite struct {
 		MadeBy string `json:"madeby"`
 		Date   int64  `json:"date"`
+		Used   string `json:"used"`
 	} `json:"invite"`
 }

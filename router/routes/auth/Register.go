@@ -51,11 +51,25 @@ func complete(ctx *fiber.Ctx) error {
 		})
 	}
 
-	users.InsertOne(context.TODO(), bson.M{"email": Email, "blacklisted": bson.M{
-		"reason":      nil,
-		"by":          nil,
-		"blacklisted": false,
-	}, "invite": bson.M{"madeby": e["madeby"].(string), "date": time.Now().Unix()}})
+	if _, err := users.InsertOne(context.TODO(), bson.M{
+		"email": Email,
+		"blacklisted": bson.M{
+			"reason":        nil,
+			"by":            nil,
+			"blacklist  ed": false,
+		}, "invite": bson.M{
+			"madeby": e["madeby"],
+			"date":   time.Now().Unix(),
+			"used":   Invite,
+		},
+	}); err != nil {
+		return ctx.JSON(fiber.Map{
+			"status":  "ERROR",
+			"errors":  structs.Errors{"UNKNOWN_ERROR"},
+			"message": "An error has occurred and your account has not been registered.",
+			"error":   err.Error(),
+		})
+	}
 
 	return ctx.JSON(fiber.Map{
 		"status":  "OK",
