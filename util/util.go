@@ -3,7 +3,6 @@ package util
 import (
 	"encoding/base64"
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"math/rand"
 	"net/http"
@@ -20,7 +19,6 @@ func BasicSender(send string, email string, password string, basic string) (int,
 	//data, _ := json.Marshal(string{"?email="+email+"&password="+password+"?privileges="})
 
 	//dataR := bytes.NewBuffer(data)
-	fmt.Println("test: " + email + " & test2: " + password + " & test3:" + basic)
 	params := url.Values{}
 	params.Add("email", email)
 	params.Add("password", password)
