@@ -1,12 +1,14 @@
 package structs
 
-import "go.mongodb.org/mongo-driver/mongo"
+import (
+	"go.mongodb.org/mongo-driver/mongo"
+)
 
 var DB *mongo.Database
 
 type Errors []string
 
-type StatsResponse []struct {
+type StatsResponse struct {
 	Domain string `json:"domain"`
 	Users  []struct {
 		Email      string   `json:"email"`
@@ -31,6 +33,7 @@ type DomainsSlice []string
 
 type Invite struct {
 	Invite string `json:"invite"`
+	MadeBy string `json:"madeby"`
 	Active bool   `json:"active"`
 	UsedBy struct {
 		Email string `json:"email"`
@@ -41,3 +44,16 @@ type Invite struct {
 // This is a constant that is used by main.go to show if the application is in testing process.
 // If it is, all admin routes will not require a key
 var IsTesting bool
+
+type User struct {
+	Email       string `json:"email"`
+	Blacklisted struct {
+		By            string `json:"by"`
+		Reason        string `json:"reason"`
+		Isblacklisted bool   `json:"blacklisted"`
+	} `json:"blacklisted"`
+	Invite struct {
+		MadeBy string `json:"madeby"`
+		Date   int64  `json:"date"`
+	} `json:"invite"`
+}

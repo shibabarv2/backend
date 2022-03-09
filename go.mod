@@ -4,6 +4,7 @@ go 1.17
 
 require (
 	github.com/andybalholm/brotli v1.0.4 // indirect
+	github.com/bestmethod/go-logger v0.0.0-20190212124136-3fc21e2f1810 // indirect
 	github.com/go-stack/stack v1.8.0 // indirect
 	github.com/gofiber/fiber/v2 v2.28.0 // indirect
 	github.com/golang/snappy v0.0.1 // indirect

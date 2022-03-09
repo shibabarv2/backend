@@ -28,7 +28,7 @@ func AddInvite(ctx *fiber.Ctx) error {
 
 	col := structs.DB.Collection("invites")
 
-	if _, err := col.InsertOne(context.TODO(), bson.M{"invite": ctx.Query("invite"), "active": true, "usedBy": bson.M{"email": "", "date": "Never"}}); err != nil {
+	if _, err := col.InsertOne(context.TODO(), bson.M{"invite": ctx.Query("invite"), "active": true, "madeby": "Admin (This user was invited by a administrator)", "usedBy": bson.M{"email": "", "date": "Never"}}); err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"status":  "ERROR",
 			"errors":  structs.Errors{"UNEXPECTED_ERROR"},

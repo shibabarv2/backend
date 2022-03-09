@@ -46,7 +46,8 @@ func GetInvite(ctx *fiber.Ctx) error {
 		"message": "Here is the invite information.",
 		"invite": fiber.Map{
 			"invite": ctx.Query("invite"),
-			"active": true,
+			"active": a.Active,
+			"madeBy": a.MadeBy,
 			"usedBy": fiber.Map{
 				"email": a.UsedBy.Email,
 				"date":  time.Unix(a.UsedBy.Date, 0),

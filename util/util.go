@@ -90,7 +90,7 @@ func GetDomains() []string {
 
 	defer resp.Body.Close()
 
-	var r structs.StatsResponse
+	var r []structs.StatsResponse
 	err = json.NewDecoder(resp.Body).Decode(&r)
 	if err != nil {
 		return nil
@@ -105,4 +105,29 @@ func GetDomains() []string {
 	}
 
 	return domains
+}
+
+func BanUser(email string, basic string) int {
+	params := url.Values{}
+	params.Add("email", email)
+
+	paramsR := params.Encode()
+	paramsE := strings.NewReader(paramsR)
+	resp, err := http.NewRequest("POST", os.Getenv("API_URL")+"/admin/mail/users/remove", paramsE)
+
+	resp.Header.Add("Authorization", "Basic "+basic)
+	resp.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	if err != nil {
+		panic(err)
+	}
+	respR, err := Client.Do(resp)
+
+	defer respR.Body.Close()
+
+	_, err = ioutil.ReadAll(respR.Body)
+	if err != nil {
+		panic(err)
+	}
+
+	return respR.StatusCode
 }

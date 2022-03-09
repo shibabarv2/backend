@@ -17,6 +17,7 @@ func complete(ctx *fiber.Ctx) error {
 	Password := util.String(10)
 
 	col := structs.DB.Collection("invites")
+	users := structs.DB.Collection("users")
 
 	var e bson.M
 
@@ -49,6 +50,12 @@ func complete(ctx *fiber.Ctx) error {
 			"message": "An unexpected error has occurred",
 		})
 	}
+
+	users.InsertOne(context.TODO(), bson.M{"email": Email, "blacklisted": bson.M{
+		"reason":      nil,
+		"by":          nil,
+		"blacklisted": false,
+	}, "invite": bson.M{"madeby": e["madeby"].(string), "date": time.Now().Unix()}})
 
 	return ctx.JSON(fiber.Map{
 		"status":  "OK",

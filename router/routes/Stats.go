@@ -39,7 +39,7 @@ func Stats(ctx *fiber.Ctx) error {
 
 	defer resp.Body.Close()
 
-	var r structs.StatsResponse
+	var r []structs.StatsResponse
 	err = json.NewDecoder(resp.Body).Decode(&r)
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
