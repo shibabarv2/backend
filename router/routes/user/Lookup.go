@@ -75,6 +75,7 @@ func Lookup(ctx *fiber.Ctx) error {
 				"email":       User.Email,
 				"invite":      User.Invite,
 				"blacklisted": User.Blacklisted,
+				"discord":     User.Discord,
 			},
 		})
 	}

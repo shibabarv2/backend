@@ -7,6 +7,7 @@ import (
 	"os"
 	"shiba-backend/structs"
 	"shiba-backend/util"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -14,6 +15,7 @@ import (
 func complete(ctx *fiber.Ctx) error {
 	Invite := ctx.Query("invite")
 	Email := ctx.Query("email")
+	DiscordID := ctx.Query("id")
 	Password := util.String(10)
 
 	col := structs.DB.Collection("invites")
@@ -51,16 +53,29 @@ func complete(ctx *fiber.Ctx) error {
 		})
 	}
 
+	// Attempt to make the DiscordID a int64
+	i, err := strconv.ParseInt(DiscordID, 10, 64)
+	if err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"status":  "ERROR",
+			"errors":  structs.Errors{"UNEXPECTED_ERROR"},
+			"message": "An unexpected error has occurred",
+		})
+	}
+
 	if _, err := users.InsertOne(context.TODO(), bson.M{
 		"email": Email,
 		"blacklisted": bson.M{
-			"reason":        nil,
-			"by":            nil,
-			"blacklist  ed": false,
+			"reason":      nil,
+			"by":          nil,
+			"blacklisted": false,
 		}, "invite": bson.M{
 			"madeby": e["madeby"],
 			"date":   time.Now().Unix(),
 			"used":   Invite,
+		},
+		"discord": bson.M{
+			"id": i,
 		},
 	}); err != nil {
 		return ctx.JSON(fiber.Map{

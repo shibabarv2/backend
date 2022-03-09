@@ -48,13 +48,16 @@ var IsTesting bool
 type User struct {
 	Email       string `json:"email"`
 	Blacklisted struct {
-		By            string `json:"by"`
-		Reason        string `json:"reason"`
-		Isblacklisted bool   `json:"blacklisted"`
+		By          string `json:"by"`
+		Reason      string `json:"reason"`
+		Blacklisted bool   `json:"blacklisted"`
 	} `json:"blacklisted"`
 	Invite struct {
 		MadeBy string `json:"madeby"`
 		Date   int64  `json:"date"`
 		Used   string `json:"used"`
 	} `json:"invite"`
+	Discord struct {
+		ID int64 `json:"id"`
+	} `json:"discord"`
 }

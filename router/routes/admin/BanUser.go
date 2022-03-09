@@ -34,9 +34,9 @@ func BanUser(ctx *fiber.Ctx) error {
 
 	if err := col.FindOneAndUpdate(context.TODO(), bson.M{"email": ctx.Query("email")}, bson.M{"$set": bson.M{
 		"blacklisted": bson.M{
-			"by":            ctx.Query("by"),
-			"reason":        ctx.Query("reason"),
-			"isblacklisted": true,
+			"by":          ctx.Query("by"),
+			"reason":      ctx.Query("reason"),
+			"blacklisted": true,
 		},
 	}}).Decode(&s); err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
