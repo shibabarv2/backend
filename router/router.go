@@ -24,6 +24,7 @@ func Router(server *fiber.App) {
 	admin.Get("/create/invite", routes2.AddInvite)
 	admin.Get("/remove/invite", routes2.RemoveInvite)
 	admin.Get("/blacklist/user", routes2.BanUser)
+	admin.Get("/unblacklist/user", routes2.UnbanUser)
 	admin.Get("/lookup/invite", routes2.GetInvite)
 
 	user := group.Group("/users")

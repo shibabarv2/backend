@@ -1,7 +1,9 @@
 package util
 
 import (
+	"encoding/base64"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"math/rand"
 	"net/http"
@@ -14,10 +16,11 @@ import (
 
 var Client = &http.Client{Timeout: 10 * time.Second}
 
-func BasicSender(send string, email string, password string, basic string) int {
+func BasicSender(send string, email string, password string, basic string) (int, []byte) {
 	//data, _ := json.Marshal(string{"?email="+email+"&password="+password+"?privileges="})
 
 	//dataR := bytes.NewBuffer(data)
+	fmt.Println("test: " + email + " & test2: " + password + " & test3:" + basic)
 	params := url.Values{}
 	params.Add("email", email)
 	params.Add("password", password)
@@ -36,12 +39,12 @@ func BasicSender(send string, email string, password string, basic string) int {
 
 	defer respR.Body.Close()
 
-	_, err = ioutil.ReadAll(respR.Body)
+	boder, err := ioutil.ReadAll(respR.Body)
 	if err != nil {
 		panic(err)
 	}
 
-	return respR.StatusCode
+	return respR.StatusCode, boder
 }
 
 const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
@@ -130,4 +133,12 @@ func BanUser(email string, basic string) int {
 	}
 
 	return respR.StatusCode
+}
+
+func Base64Decode(message []byte) []byte {
+	var b []byte
+	b = make([]byte, base64.StdEncoding.DecodedLen(len(message)))
+	_, _ = base64.StdEncoding.Decode(b, message)
+
+	return b
 }

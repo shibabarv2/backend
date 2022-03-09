@@ -41,7 +41,7 @@ func complete(ctx *fiber.Ctx) error {
 		})
 	}
 
-	status := util.BasicSender(os.Getenv("API_URL")+"/admin/mail/users/add", Email, Password, os.Getenv("ADMIN_KEY"))
+	status, _ := util.BasicSender(os.Getenv("API_URL")+"/admin/mail/users/add", Email, Password, os.Getenv("ADMIN_KEY"))
 
 	if status != 200 {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
