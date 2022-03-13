@@ -18,7 +18,7 @@ func AddInvite(ctx *fiber.Ctx) error {
 		})
 	}
 
-	if strings.HasPrefix(ctx.Query("invite"), "SHIB-") == false {
+	if !strings.HasPrefix(ctx.Query("invite"), "SHIB-") {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"status":  "ERROR",
 			"errors":  structs.Errors{"VALIDATION_ERROR"},
