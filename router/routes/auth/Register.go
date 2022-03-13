@@ -104,7 +104,7 @@ func Register(ctx *fiber.Ctx) error {
 	Email := ctx.Query("email")
 	//Password := util.String(10)
 
-	if strings.Contains(Email, "@") == false {
+	if !strings.Contains(Email, "@") {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"status":  "ERROR",
 			"errors":  structs.Errors{"VALIDATION_ERROR"},
@@ -113,7 +113,7 @@ func Register(ctx *fiber.Ctx) error {
 	}
 
 	for _, v := range util.GetDomains() {
-		if strings.Contains(Email, v) == true {
+		if strings.Contains(Email, v) {
 			return complete(ctx)
 		}
 	}
