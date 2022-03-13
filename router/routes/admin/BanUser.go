@@ -14,7 +14,7 @@ func BanUser(ctx *fiber.Ctx) error {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"status":  "ERROR",
 			"errors":  structs.Errors{"VALIDATION_ERROR"},
-			"message": "You are missing a API key.",
+			"message": "You are missing an API key.",
 		})
 	}
 
@@ -24,7 +24,7 @@ func BanUser(ctx *fiber.Ctx) error {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"status":  "ERROR",
 			"errors":  structs.Errors{"UNKNOWN_ERROR"},
-			"message": "An unknown error occurred",
+			"message": "An unknown error occurred.",
 		})
 	}
 
@@ -42,7 +42,7 @@ func BanUser(ctx *fiber.Ctx) error {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"status":  "ERROR",
 			"errors":  structs.Errors{"UNKNOWN_ERROR"},
-			"message": "There was an error updating the blacklisted status for the user",
+			"message": "There was an error updating the blacklisted status for the user.",
 			"error":   err.Error(),
 		})
 	}

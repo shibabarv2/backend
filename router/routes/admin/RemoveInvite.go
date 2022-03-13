@@ -14,7 +14,7 @@ func RemoveInvite(ctx *fiber.Ctx) error {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"status":  "ERROR",
 			"errors":  structs.Errors{"VALIDATION_ERROR"},
-			"message": "You are missing a API key.",
+			"message": "You are missing an API key.",
 		})
 	}
 
@@ -22,7 +22,7 @@ func RemoveInvite(ctx *fiber.Ctx) error {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"status":  "ERROR",
 			"errors":  structs.Errors{"VALIDATION_ERROR"},
-			"message": "Valid invites start with SHIB. Please make your invite start with SHIB and then try again.",
+			"message": "Please ensure the invite starts with SHIB before trying again.",
 		})
 	}
 
@@ -34,7 +34,7 @@ func RemoveInvite(ctx *fiber.Ctx) error {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"status":  "ERROR",
 			"errors":  structs.Errors{"INVALID_INVITE"},
-			"message": "The invite you provided was invalid.",
+			"message": "The invite provided was invalid.",
 		})
 	}
 
@@ -42,7 +42,7 @@ func RemoveInvite(ctx *fiber.Ctx) error {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"status":  "ERROR",
 			"errors":  structs.Errors{"UNEXPECTED_ERROR"},
-			"message": "An error occurred removing your invite.",
+			"message": "An error occurred removing the invite.",
 			"error":   err.Error(),
 		})
 	}
@@ -50,6 +50,6 @@ func RemoveInvite(ctx *fiber.Ctx) error {
 	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
 		"status":  "OK",
 		"errors":  structs.Errors{},
-		"message": "Your invite has been successfully removed",
+		"message": "The invite has been successfully removed.",
 	})
 }
