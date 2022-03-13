@@ -15,7 +15,7 @@ func GetInvite(ctx *fiber.Ctx) error {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"status":  "ERROR",
 			"errors":  structs.Errors{"VALIDATION_ERROR"},
-			"message": "You are missing a API key.",
+			"message": "You are missing an API key.",
 		})
 	}
 
@@ -23,7 +23,7 @@ func GetInvite(ctx *fiber.Ctx) error {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"status":  "ERROR",
 			"errors":  structs.Errors{"VALIDATION_ERROR"},
-			"message": "A valid invite starts with SHIB. Please lookup a valid invite and then try again",
+			"message": "Please ensure the invite starts with SHIB and is valid before trying again",
 		})
 	}
 
@@ -35,7 +35,7 @@ func GetInvite(ctx *fiber.Ctx) error {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"status":  "ERROR",
 			"errors":  structs.Errors{"UNEXPECTED_ERROR"},
-			"message": "An error occurred looking up your invite.",
+			"message": "An error occurred looking up the invite.",
 			"error":   err.Error(),
 		})
 	}
