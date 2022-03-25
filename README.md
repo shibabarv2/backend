@@ -3,7 +3,12 @@
 This was made using Golang, Gofiber, and mongoDB.
 </center>
 
+### Issues
+If you have an issue with this project please join this discord and DM loud about it
+https://discord.gg/mail
+
 **Why did I make this**? I made this because Roundcube didn't have the features I needed, so I decided to make my own. This backend was a fun learning experience and I will continue to update it when I get ideas.
+
 
 ### THIS IS NOT MEANT TO BE ACTUALLY USED BY ANYONE BUT ME
 You can if you want to.
